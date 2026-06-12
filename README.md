@@ -1,72 +1,77 @@
-# CALinONE für Home Assistant
+# CALinONE for Home Assistant
 
 [![Validate](https://github.com/Igeling/CALinONE-HomeAssistant/actions/workflows/validate.yml/badge.svg)](https://github.com/Igeling/CALinONE-HomeAssistant/actions/workflows/validate.yml)
 
-Empfängt den Schichtplan der [CALinONE-App](https://cal-in-one.app) und stellt ihn
-als Kalender und Sensoren in Home Assistant bereit.
+Receives the schedule from the [CALinONE app](https://cal-in-one.app) and exposes
+it as a calendar and sensors in Home Assistant.
+
+The app only sends data to this integration's webhook — it never gets access to
+anything else in your Home Assistant. No long-lived access token, no admin
+account required.
 
 ## Installation
 
-### Über HACS (empfohlen)
+### Via HACS (recommended)
 
-Der Button öffnet das Repository direkt in HACS auf **deiner** Home-Assistant-Instanz:
+The button opens this repository directly in HACS on **your** Home Assistant instance:
 
 [![Open your Home Assistant instance and open this repository inside HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Igeling&repository=CALinONE-HomeAssistant&category=integration)
 
-Oder manuell:
+Or manually:
 
-1. HACS → drei Punkte (oben rechts) → **Benutzerdefinierte Repositories**
-2. Repository-URL eintragen, Typ **Integration**, hinzufügen
-3. „CALinONE" in HACS suchen und installieren
-4. Home Assistant neu starten
+1. HACS → three dots (top right) → **Custom repositories**
+2. Add the repository URL, type **Integration**
+3. Search for "CALinONE" in HACS and install it
+4. Restart Home Assistant
 
-### Manuell
+### Manual
 
-1. Den Ordner `custom_components/calinone` in dein HA-Konfigurationsverzeichnis
-   kopieren (`<config>/custom_components/calinone`)
-2. Home Assistant neu starten
+1. Copy the `custom_components/calinone` folder into your Home Assistant
+   configuration directory (`<config>/custom_components/calinone`)
+2. Restart Home Assistant
 
-## Einrichtung
+## Setup
 
-Der Button startet den Einrichtungs-Dialog direkt in deinem Home Assistant:
+The button starts the setup dialog directly in your Home Assistant:
 
 [![Open your Home Assistant instance and start setting up this integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=calinone)
 
-Oder manuell:
+Or manually:
 
-1. **Einstellungen → Geräte & Dienste → Integration hinzufügen** → „CALinONE"
-2. Den Dialog bestätigen — Home Assistant zeigt dir eine **Webhook-URL** an
-3. Diese URL in der CALinONE-App eintragen: **Einstellungen → Home Assistant**
-4. In der App auf **„Verbindung testen"** tippen — fertig
+1. **Settings → Devices & Services → Add Integration** → "CALinONE"
+2. Confirm the dialog — Home Assistant shows you a **webhook URL**
+3. Enter this URL in the CALinONE app: **Settings → Home Assistant**
+4. Tap **"Test connection"** in the app — done
 
-Die App sendet ab jetzt bei jeder Änderung deinen Plan (rollierendes Fenster:
-3 Monate zurück bis 12 Monate voraus). Die Integration berechnet alle Werte
-selbst und funktioniert auch, wenn die App geschlossen ist: Werte überleben
-HA-Neustarts und rollen um Mitternacht automatisch auf den neuen Tag.
+From now on the app sends your schedule on every change (rolling window:
+3 months back to 12 months ahead). The integration computes all values itself
+and keeps working when the app is closed: values survive Home Assistant
+restarts and roll over to the new day at midnight automatically.
 
 ## Entities
 
-| Entity-ID | Was sie zeigt |
+| Entity ID | What it shows |
 |-----------|---------------|
-| `calendar.calinone` | Alle Schichten, Urlaube und Termine als Kalender |
-| `sensor.calinone_current_shift` | Heutige Schicht (Name) oder `off` |
-| `sensor.calinone_shift_start` | Schichtbeginn heute, z. B. `06:00` (sonst `-`) |
-| `sensor.calinone_shift_end` | Schichtende heute, z. B. `14:00` (sonst `-`) |
-| `sensor.calinone_shift_duration` | Schichtdauer heute in Stunden (Nachtschichten korrekt) |
-| `sensor.calinone_next_shift` | Schicht/Urlaub **morgen** (Name) oder `off` |
-| `sensor.calinone_next_appointment` | Nächster Termin **heute** (Titel) oder `off` |
-| `sensor.calinone_appointment_category` | Kategorie dieses Termins (`-` = ohne, `off` = kein Termin) |
-| `binary_sensor.calinone_work_day` | `on` = heute Arbeitstag (an Urlaubstagen `off`) |
-| `binary_sensor.calinone_vacation_today` | `on` = heute Urlaub/Abwesenheit |
+| `calendar.calinone` | All shifts, vacations and appointments as a calendar |
+| `sensor.calinone_current_shift` | Today's shift (name) or `off` |
+| `sensor.calinone_shift_start` | Shift start today, e.g. `06:00` (else `-`) |
+| `sensor.calinone_shift_end` | Shift end today, e.g. `14:00` (else `-`) |
+| `sensor.calinone_shift_duration` | Shift duration today in hours (night shifts handled correctly) |
+| `sensor.calinone_next_shift` | Shift/vacation **tomorrow** (name) or `off` |
+| `sensor.calinone_next_appointment` | Next appointment **today** (title) or `off` |
+| `sensor.calinone_appointment_category` | Category of that appointment (`-` = none, `off` = no appointment) |
+| `binary_sensor.calinone_work_day` | `on` = work day today (`off` on vacation days) |
+| `binary_sensor.calinone_vacation_today` | `on` = vacation/absence today |
 
-Nach jedem Push der App feuert die Integration zusätzlich das Bus-Event
-**`calinone_updated`** — nützlich als Trigger für eigene Automatisierungen.
+Entity display names follow your Home Assistant language (English and German
+included). After each push from the app the integration also fires the bus
+event **`calinone_updated`** — useful as a trigger for your own automations.
 
-## Beispiel-Automatisierung
+## Example automation
 
 ```yaml
 automation:
-  - alias: "Heizung vor Schichtbeginn"
+  - alias: "Heating before shift start"
     trigger:
       - platform: time
         at: "05:00:00"
@@ -77,18 +82,20 @@ automation:
     action:
       - service: climate.set_temperature
         target:
-          entity_id: climate.wohnzimmer
+          entity_id: climate.living_room
         data:
           temperature: 22
 ```
 
-## Sicherheit
+## Security
 
-- Die Webhook-URL ist das einzige Geheimnis (wie bei der offiziellen HA Companion
-  App). Behandle sie wie ein Passwort.
-- Der Webhook akzeptiert nur `POST` mit CALinONE-Daten; er kann nichts in
-  Home Assistant steuern oder auslesen.
+- The webhook URL is the only secret (same principle as the official Home
+  Assistant Companion App). Treat it like a password.
+- The webhook only accepts `POST` requests with CALinONE schedule data; it
+  cannot control or read anything in Home Assistant.
+- If needed, remove and re-add the integration — a new webhook URL is created
+  and the old one becomes invalid.
 
-## Hilfe
+## Help
 
-Vollständige Anleitung: https://cal-in-one.app/homeassistant
+Full setup guide: https://cal-in-one.app/homeassistant
