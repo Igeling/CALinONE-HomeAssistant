@@ -1,11 +1,19 @@
 # CALinONE für Home Assistant
 
+[![Validate](https://github.com/Igeling/CALinONE-HomeAssistant/actions/workflows/validate.yml/badge.svg)](https://github.com/Igeling/CALinONE-HomeAssistant/actions/workflows/validate.yml)
+
 Empfängt den Schichtplan der [CALinONE-App](https://cal-in-one.app) und stellt ihn
 als Kalender und Sensoren in Home Assistant bereit.
 
 ## Installation
 
 ### Über HACS (empfohlen)
+
+Der Button öffnet das Repository direkt in HACS auf **deiner** Home-Assistant-Instanz:
+
+[![Open your Home Assistant instance and open this repository inside HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Igeling&repository=CALinONE-HomeAssistant&category=integration)
+
+Oder manuell:
 
 1. HACS → drei Punkte (oben rechts) → **Benutzerdefinierte Repositories**
 2. Repository-URL eintragen, Typ **Integration**, hinzufügen
@@ -19,6 +27,12 @@ als Kalender und Sensoren in Home Assistant bereit.
 2. Home Assistant neu starten
 
 ## Einrichtung
+
+Der Button startet den Einrichtungs-Dialog direkt in deinem Home Assistant:
+
+[![Open your Home Assistant instance and start setting up this integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=calinone)
+
+Oder manuell:
 
 1. **Einstellungen → Geräte & Dienste → Integration hinzufügen** → „CALinONE"
 2. Den Dialog bestätigen — Home Assistant zeigt dir eine **Webhook-URL** an
