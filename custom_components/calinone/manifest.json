@@ -7,6 +7,6 @@
   "documentation": "https://cal-in-one.app/homeassistant",
   "integration_type": "service",
   "iot_class": "local_push",
-  "issue_tracker": "https://github.com/Igeling/calinone-ha/issues",
+  "issue_tracker": "https://github.com/Igeling/CALinONE-HomeAssistant/issues",
   "version": "1.0.0"
 }
