@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "CALinONE",
+        "description": "Möchtest du CALinONE einrichten? Es wird ein Webhook erstellt, an den die CALinONE-App deinen Schichtplan sendet. Die App erhält keinen Zugriff auf irgendetwas anderes in Home Assistant."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Bereits konfiguriert. Nur eine einzige Konfiguration möglich.",
+      "webhook_not_internet_accessible": "Deine Home-Assistant-Instanz muss aus dem Internet erreichbar sein, um Webhook-Nachrichten zu empfangen."
+    },
+    "create_entry": {
+      "default": "Kopiere diese Webhook-URL in die CALinONE-App (Einstellungen → Home Assistant):\n\n`{webhook_url}`\n\nDie vollständige Anleitung findest du unter {docs_url}."
+    }
+  },
+  "entity": {
+    "calendar": {
+      "calendar": {
+        "name": "Kalender"
+      }
+    },
+    "sensor": {
+      "current_shift": {
+        "name": "Aktuelle Schicht"
+      },
+      "shift_start": {
+        "name": "Schichtbeginn"
+      },
+      "shift_end": {
+        "name": "Schichtende"
+      },
+      "shift_duration": {
+        "name": "Schichtdauer"
+      },
+      "next_shift": {
+        "name": "Nächste Schicht"
+      },
+      "next_appointment": {
+        "name": "Nächster Termin"
+      },
+      "appointment_category": {
+        "name": "Terminkategorie"
+      }
+    },
+    "binary_sensor": {
+      "work_day": {
+        "name": "Arbeitstag"
+      },
+      "vacation_today": {
+        "name": "Urlaub heute"
+      }
+    }
+  }
+}

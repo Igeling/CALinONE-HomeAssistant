@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "CALinONE",
+        "description": "Do you want to set up CALinONE? A webhook will be created that the CALinONE app pushes your shift schedule to. The app gets no access to anything else in Home Assistant."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Already configured. Only a single configuration possible.",
+      "webhook_not_internet_accessible": "Your Home Assistant instance needs to be accessible from the internet to receive webhook messages."
+    },
+    "create_entry": {
+      "default": "Copy this webhook URL into the CALinONE app (Settings → Home Assistant):\n\n`{webhook_url}`\n\nSee {docs_url} for the full guide."
+    }
+  },
+  "entity": {
+    "calendar": {
+      "calendar": {
+        "name": "Calendar"
+      }
+    },
+    "sensor": {
+      "current_shift": {
+        "name": "Current shift"
+      },
+      "shift_start": {
+        "name": "Shift start"
+      },
+      "shift_end": {
+        "name": "Shift end"
+      },
+      "shift_duration": {
+        "name": "Shift duration"
+      },
+      "next_shift": {
+        "name": "Next shift"
+      },
+      "next_appointment": {
+        "name": "Next appointment"
+      },
+      "appointment_category": {
+        "name": "Appointment category"
+      }
+    },
+    "binary_sensor": {
+      "work_day": {
+        "name": "Work day"
+      },
+      "vacation_today": {
+        "name": "Vacation today"
+      }
+    }
+  }
+}
