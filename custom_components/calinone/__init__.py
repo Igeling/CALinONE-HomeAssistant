@@ -19,8 +19,9 @@ from homeassistant.components import webhook
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_WEBHOOK_ID
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.storage import Store
 
-from .const import DOMAIN, PLATFORMS, SCHEMA_VERSION
+from .const import DOMAIN, PLATFORMS, SCHEMA_VERSION, STORAGE_VERSION
 from .coordinator import CalinoneCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -54,6 +55,13 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         coordinator: CalinoneCoordinator = hass.data[DOMAIN].pop(entry.entry_id)
         coordinator.async_stop()
     return unload_ok
+
+
+async def async_remove_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Beim endgültigen Entfernen des Eintrags die gespeicherten Plandaten
+    löschen (sonst bliebe `.storage/calinone.<entry_id>` verwaist liegen)."""
+    store: Store = Store(hass, STORAGE_VERSION, f"{DOMAIN}.{entry.entry_id}")
+    await store.async_remove()
 
 
 def _make_webhook_handler(coordinator: CalinoneCoordinator):
