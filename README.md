@@ -2,8 +2,6 @@
 
 Empfängt den Schichtplan der [CALinONE-App](https://cal-in-one.app) und stellt ihn
 als Kalender und Sensoren in Home Assistant bereit.
-Die App sendet ausschließlich an den Webhook dieser Integration und hat keinerlei
-Zugriff auf den Rest deines Home Assistant.
 
 ## Installation
 
@@ -76,7 +74,6 @@ automation:
   App). Behandle sie wie ein Passwort.
 - Der Webhook akzeptiert nur `POST` mit CALinONE-Daten; er kann nichts in
   Home Assistant steuern oder auslesen.
-- Kein Long-Lived Access Token, keine Admin-Rechte nötig.
 
 ## Hilfe
 
